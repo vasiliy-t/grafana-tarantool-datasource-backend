@@ -1,8 +1,11 @@
 package = 'grafana-tarantool-datasource-backend'
 version = 'scm-1'
+
 source  = {
-    url = 'https://github.com/vasiliy-t/grafana-tarantool-datasource-backend',
+    url = 'git://github.com/vasiliy-t/grafana-tarantool-datasource-backend.git',
+    branch = 'master'
 }
+
 -- Put any modules your app depends on here
 dependencies = {
     'tarantool',
