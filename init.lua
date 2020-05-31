@@ -30,9 +30,7 @@ local cartridge = require('cartridge')
 local ok, err = cartridge.cfg({
     workdir = 'tmp/db',
     roles = {
-        'cartridge.roles.vshard-storage',
-        'cartridge.roles.vshard-router',
-        'app.roles.custom',
+        'grafana_backend',
     },
     cluster_cookie = 'grafana-tarantool-datasource-backend-cluster-cookie',
 })

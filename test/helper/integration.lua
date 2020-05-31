@@ -13,7 +13,7 @@ helper.cluster = cartridge_helpers.Cluster:new({
         {
             alias = 'api',
             uuid = cartridge_helpers.uuid('a'),
-            roles = {'app.roles.custom'},
+            roles = {'grafana_backend'},
             servers = {{ instance_uuid = cartridge_helpers.uuid('a', 1) }},
         },
     },
