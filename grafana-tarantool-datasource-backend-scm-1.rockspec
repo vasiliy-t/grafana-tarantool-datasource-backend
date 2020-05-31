@@ -15,7 +15,7 @@ dependencies = {
     'icu-date'
 }
 build = {
-    type = 'bultin',
+    type = 'builtin',
 
     modules = {
         ['grafana-tarantool-datasource-backend.grafana_backend'] = 'grafana_backend.lua'
