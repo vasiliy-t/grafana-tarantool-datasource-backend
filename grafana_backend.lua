@@ -3,6 +3,38 @@ local icu_date = require("icu-date")
 local errors = require("errors")
 local err_httpd = errors.new_class("httpd error")
 
+local function to_record_batch(acc, x)
+    local n = acc:get_schema():get_fields()
+
+    for i, f in ipairs(n) do
+        acc:get_column_builder(i - 1):append(x[f:get_name()])
+    end
+
+    return acc
+end
+
+local function new_schema(schema)
+    local lgi = require("lgi")
+    local Arrow = lgi.Arrow
+    local m = {
+        ['timestamp[ms]'] = function()
+            return Arrow.TimestampDataType.new(Arrow.TimeUnit.MILLI)
+        end,
+        ['float'] = function()
+            return Arrow.FloatDataType.new()
+        end,
+        ['string'] = function()
+            return Arrow.StringDataType.new()
+        end
+    }
+    local fields = {}
+    for _, t in ipairs(schema) do
+        table.insert(fields, Arrow.Field.new(t.name, m[t.type]()))
+    end
+
+    return Arrow.RecordBatchBuilder.new(Arrow.Schema.new(fields))
+end
+
 local function init(opts)
     local httpd = cartridge.service_get("httpd")
     if not httpd then
@@ -115,6 +147,9 @@ local function init(opts)
             }
         end
     )
+
+    rawset(_G, 'to_record_batch', to_record_batch)
+    rawset(_G, 'new_schema', new_schema)
 
     return true
 end
